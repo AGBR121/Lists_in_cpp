@@ -37,7 +37,7 @@ public:
     
     unsigned int size() const { return size_ ;}
 
-    bool empty(){ return !size_ ;}
+    bool empty(){ return size_ == 0 ;}
 
     void push_front(const T& element){
         Node* n = new Node(element);
@@ -51,11 +51,39 @@ public:
 
     void push_back(const T& element){
         Node* n = new Node(element);
-        last_->setNext(n);
-        last_ = n;
-        if(empty()){
-            first_ = n;
+        if (empty()) {
+            first_ = last_ = n;
+        } else {
+            last_->setNext(n);
+            last_ = n;
         }
         size_++;
+    }
+
+    void pop_front(){
+        if(empty()){ return ; }
+        Node* temp = first_;
+        first_ = first_->getNext();
+        delete temp;
+        size_--;
+
+        if (size_ == 0) { last_ = nullptr ; }
+    }
+
+    void pop_back(){
+        if(empty()){ return ; }
+        if(first_ == last_){
+            delete first_;
+            first_ = last_ = nullptr;
+        }else{
+            Node* current = first_;
+            while (current->getNext() != last_) {
+                current = current->getNext();
+            }
+            delete last_;
+            last_ = current;
+            last_->setNext(nullptr);
+        }
+        size_--;
     }
 };
