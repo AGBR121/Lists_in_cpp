@@ -8,7 +8,6 @@ template<typename T>
 class List
 {
 private:
-    T* first;
     class Node{
         private:
         T data_;
@@ -23,8 +22,15 @@ private:
             next_ = nullptr;
         }
     };
-    T* last;
-    unsigned int size;
+    Node* first_;
+    Node* last_;
+    unsigned int size_;
 public:
-    
+    //Constructor
+    List(){
+        first_ = nullptr ;
+        size_ = 0;
+    }
+    unsigned int size() const { return size_ ;}
+    bool empty(){ return first_ == nullptr ;}
 };
