@@ -34,8 +34,11 @@ public:
         first_ = nullptr ;
         size_ = 0;
     }
+    
     unsigned int size() const { return size_ ;}
+
     bool empty(){ return !size_ ;}
+
     void push_front(const T& element){
         Node* n = new Node(element);
         n->setNext(first_);
@@ -45,11 +48,12 @@ public:
         }
         size++;
     }
+
     void push_back(const T& element){
         Node* n = new Node(element);
         last_->setNext(n);
         last_ = n;
-        if(!empty){
+        if(empty()){
             first_ = n;
         }
         size_++;
