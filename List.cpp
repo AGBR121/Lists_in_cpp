@@ -21,6 +21,9 @@ private:
             data_ = element;
             next_ = nullptr;
         }
+        void setNext(Node* next){
+            next_ = next;
+        }
     };
     Node* first_;
     Node* last_;
@@ -33,4 +36,13 @@ public:
     }
     unsigned int size() const { return size_ ;}
     bool empty(){ return first_ == nullptr ;}
+    void push_front(const T& element){
+        Node* n = new Node(element);
+        n->setNext(first_);
+        first_ = n;
+        if(empty()){
+            last_ = n;
+        }
+        size++;
+    }
 };
