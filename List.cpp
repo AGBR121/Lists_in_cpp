@@ -177,4 +177,43 @@ public:
         
         return -1; 
     }
+
+    Node* MergeSort(Node* firstElement){
+        if (!firstElement || !firstElement->getNext()){ return firstElement; }
+
+        Node* middle = getMiddle(firstElement);
+        Node* secondMiddle = middle->getNext();
+        middle->setNext(nullptr);
+
+        return Merge(MergeSort(middle), MergeSort(secondMiddle)) ;
+    }
+
+    Node* getMiddle(Node* firstElement){
+        if(!firstElement){ return firstElement ;}
+        Node* devolver = firstElement , *complement = firstElement->getNext();
+        while(complement && complement->getNext()){
+            devolver->getNext();
+            complement->getNext();
+            complement->getNext();
+        }
+        return devolver;
+    }
+
+    Node* Merge(Node* left, Node* right){
+        if(!left){ return right;}
+        if(!right){ return left;}
+
+        if (left->getData() < right->getData()) {
+            left->setNext(merge(left->getNext(), right));
+            return left;
+        } else {
+            right->setNext(merge(left, right->getNext()));
+            return right;
+        }
+    }
+
+    void sort(){
+        first_ = MergeSort(first_);
+    }
+
 };
