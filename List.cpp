@@ -8,9 +8,10 @@ template<typename T>
 class List
 {
 private:
+    //Clase nodo que tendrá el dato y el puntero al siguiente dato
     class Node{
         private:
-        T data_;
+        T data_; 
         Node* next_;
         public:
         Node(){
@@ -21,12 +22,17 @@ private:
             data_ = element;
             next_ = nullptr;
         }
+        //Cambia el puntero del siguiente elemento
         void setNext(Node* next){
             next_ = next;
         }
+        // Devuelve el puntero del siguiente elemento
+        Node* getNext() { return next_; }
+        // Devuelve el dato
+        T getData() { return data_; }
     };
-    Node* first_;
-    Node* last_;
+    Node* first_; //Primer elemento
+    Node* last_; //Ultimo elemento
     unsigned int size_;
 public:
     //Constructor
@@ -34,11 +40,14 @@ public:
         first_ = nullptr ;
         size_ = 0;
     }
-    
+
+    //Tamano de la lista
     unsigned int size() const { return size_ ;}
 
+    //devuelve si es verdad que la lista esta vacia o no
     bool empty(){ return size_ == 0 ;}
 
+    //Agregar elemento al inicio
     void push_front(const T& element){
         Node* n = new Node(element);
         n->setNext(first_);
@@ -49,6 +58,7 @@ public:
         size++;
     }
 
+    //Agregar elemento al final de la lista
     void push_back(const T& element){
         Node* n = new Node(element);
         if (empty()) {
@@ -60,6 +70,7 @@ public:
         size_++;
     }
 
+    //Eliminar primer elemento de la lista
     void pop_front(){
         if(empty()){ return ; }
         Node* temp = first_;
@@ -70,6 +81,7 @@ public:
         if (size_ == 0) { last_ = nullptr ; }
     }
 
+    //Eliminar ultimo elemento de la lista
     void pop_back(){
         if(empty()){ return ; }
         if(first_ == last_){
@@ -85,5 +97,84 @@ public:
             last_->setNext(nullptr);
         }
         size_--;
+    }
+    T& at(unsigned int pos){
+        assert(pos < size_ && pos>=0);
+        Node* current = first_;
+        for (unsigned int i = 0; i < index; i++) {
+            current = current->getNext();
+        }
+        return current->getData();
+    }
+    const T& at(unsigned int pos) const{
+        assert(pos < size_ && pos>=0);
+        Node* current = first_;
+        for (unsigned int i = 0; i < index; i++) {
+            current = current->getNext();
+        }
+        return current->getData();
+    }
+    void insert(unsigned int index, const T& element) {
+        assert(index < 0 || index > size_);
+    
+        if (index == 0) { 
+            push_front(element);
+            return;
+        }
+    
+        if (index == size_) { 
+            push_back(element);
+            return;
+        }
+
+        Node* current = first_;
+        for (unsigned int i = 0; i < index - 1; i++) {
+            current = current->getNext();
+        }
+    
+        Node* newNode = new Node(element);
+        newNode->setNext(current->getNext());
+        current->setNext(newNode);
+        
+        size_++;
+    }
+    void remove(unsigned int index){
+        assert(index < 0 || index > size_);
+    
+        if (index == 0) { 
+            pop_front();
+            return;
+        }
+    
+        if (index == size_) { 
+            pop_back();
+            return;
+        }
+
+        Node* temp = first_;
+        for (unsigned int i = 0; i < index - 1; i++) {
+            temp = temp->getNext();
+        }
+
+        Node* toDelete = temp->getNext();
+        temp->setNext(toDelete->getNext());
+    
+        delete toDelete;
+        
+        size_--;
+    }
+    int find(const T& element) const {
+        Node* temp = first_;
+        int index = 0;
+    
+        while (temp != nullptr) {
+            if (current->getData() == element) {
+                return index; 
+            }
+            temp = temp->getNext();
+            index++;
+        }
+        
+        return -1; 
     }
 };
